@@ -1,101 +1,318 @@
-import Image from "next/image";
+'use client';
 
-export default function Home() {
+import React, { useState, useCallback } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Sparkles, Zap } from 'lucide-react';
+
+// Import all slides
+import CoverSlide from '@/components/slides/Slide1Cover';
+import WhatIsBlockchainSlide from '@/components/slides/Slide2WhatIs';
+import HowWorksSlide from '@/components/slides/Slide3HowWorks';
+import ApplicationsSlide from '@/components/slides/Slide4Applications';
+import FutureSlide from '@/components/slides/Slide5Future';
+import TechnicalBasicsSlide from '@/components/slides/Slide6Technical';
+import SmartContractsSlide from '@/components/slides/Slide7SmartContracts';
+import SecuritySlide from '@/components/slides/Slide8Security';
+import PracticalExamplesSlide from '@/components/slides/Slide9Examples';
+import ConclusionSlide from '@/components/slides/Slide10Conclusion';
+
+// Slide configuration
+const SLIDES = [
+  {
+    id: 1,
+    component: CoverSlide,
+    title: 'Cover'
+  },
+  {
+    id: 2,
+    component: WhatIsBlockchainSlide,
+    title: 'Was ist Blockchain'
+  },
+  {
+    id: 3,
+    component: HowWorksSlide,
+    title: 'Funktionsweise'
+  },
+  {
+    id: 4,
+    component: ApplicationsSlide,
+    title: 'Anwendungen'
+  },
+  {
+    id: 5,
+    component: FutureSlide,
+    title: 'Zukunft'
+  },
+  {
+    id: 6,
+    component: TechnicalBasicsSlide,
+    title: 'Technische Grundlagen'
+  },
+  {
+    id: 7,
+    component: SmartContractsSlide,
+    title: 'Smart Contracts'
+  },
+  {
+    id: 8,
+    component: SecuritySlide,
+    title: 'Sicherheit'
+  },
+  {
+    id: 9,
+    component: PracticalExamplesSlide,
+    title: 'Praktische Beispiele'
+  },
+  {
+    id: 10,
+    component: ConclusionSlide,
+    title: 'Fazit'
+  }
+] as const;
+
+// Define transition types and their configurations
+const transitions = {
+  slide: {
+    initial: (direction: number) => ({
+      x: direction > 0 ? 1000 : -1000,
+      opacity: 0
+    }),
+    animate: {
+      x: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      x: direction < 0 ? 1000 : -1000,
+      opacity: 0
+    }),
+    transition: {
+      type: "spring",
+      stiffness: 300,
+      damping: 30
+    }
+  },
+  flip: {
+    initial: (direction: number) => ({
+      rotateY: direction > 0 ? 90 : -90,
+      opacity: 0
+    }),
+    animate: {
+      rotateY: 0,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      rotateY: direction < 0 ? 90 : -90,
+      opacity: 0
+    }),
+    transition: {
+      type: "spring",
+      stiffness: 200,
+      damping: 25
+    }
+  },
+  matrix: {
+    initial: {
+      opacity: 0,
+      scale: 0,
+      rotate: 360
+    },
+    animate: {
+      opacity: 1,
+      scale: 1,
+      rotate: 0
+    },
+    exit: {
+      opacity: 0,
+      scale: 0,
+      rotate: -360
+    },
+    transition: {
+      duration: 0.5
+    }
+  },
+  portal: {
+    initial: {
+      scale: 0,
+      opacity: 0,
+      rotate: 180
+    },
+    animate: {
+      scale: 1,
+      opacity: 1,
+      rotate: 0
+    },
+    exit: {
+      scale: 0,
+      opacity: 0,
+      rotate: -180
+    },
+    transition: {
+      type: "spring",
+      stiffness: 200,
+      damping: 20
+    }
+  },
+  bounce: {
+    initial: (direction: number) => ({
+      y: direction > 0 ? 1000 : -1000,
+      scale: 0.5,
+      opacity: 0
+    }),
+    animate: {
+      y: 0,
+      scale: 1,
+      opacity: 1
+    },
+    exit: (direction: number) => ({
+      y: direction < 0 ? 1000 : -1000,
+      scale: 0.5,
+      opacity: 0
+    }),
+    transition: {
+      type: "spring",
+      stiffness: 100,
+      damping: 15
+    }
+  }
+} as const;
+
+// Define the particle effect component
+const ParticleEffect = () => (
+  <motion.div
+    className="fixed inset-0 pointer-events-none"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+  >
+    {Array.from({ length: 20 }).map((_, i) => (
+      <motion.div
+        key={i}
+        className="absolute"
+        initial={{
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          scale: 0
+        }}
+        animate={{
+          x: Math.random() * window.innerWidth,
+          y: Math.random() * window.innerHeight,
+          scale: [0, 1, 0],
+          transition: {
+            duration: 1,
+            repeat: Infinity,
+            repeatType: "reverse"
+          }
+        }}
+      >
+        {i % 2 === 0 ? (
+          <Sparkles className="text-[#35F1AB] w-4 h-4" />
+        ) : (
+          <Zap className="text-[#35F1AB] w-4 h-4" />
+        )}
+      </motion.div>
+    ))}
+  </motion.div>
+);
+
+// Type for transition names
+type TransitionType = keyof typeof transitions;
+
+// Main App Component
+export default function App() {
+  const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
+  const [slideDirection, setSlideDirection] = useState(0);
+  const [transitionType, setTransitionType] = useState<TransitionType>('slide');
+
+  // Function to determine transition type based on slide index
+  const getTransitionType = (slideIndex: number): TransitionType => {
+    switch (slideIndex) {
+      case 0:
+        return 'portal';
+      case 1:
+        return 'matrix';
+      case 2:
+        return 'bounce';
+      case 3:
+        return 'flip';
+      default:
+        return 'slide';
+    }
+  };
+
+  // Navigation function
+  const navigateToSlide = useCallback((index: number) => {
+    if (index >= 0 && index < SLIDES.length) {
+      setSlideDirection(index > currentSlideIndex ? 1 : -1);
+      setTransitionType(getTransitionType(index));
+      setCurrentSlideIndex(index);
+    }
+  }, [currentSlideIndex]);
+
+  // Keyboard navigation
+  React.useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowRight' && currentSlideIndex < SLIDES.length - 1) {
+        navigateToSlide(currentSlideIndex + 1);
+      } else if (event.key === 'ArrowLeft' && currentSlideIndex > 0) {
+        navigateToSlide(currentSlideIndex - 1);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentSlideIndex, navigateToSlide]);
+
+  const CurrentSlideComponent = SLIDES[currentSlideIndex].component;
+  const currentTransition = transitions[transitionType];
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
+    <div className="relative w-screen h-screen overflow-hidden bg-[#13103F]">
+      <AnimatePresence mode="wait">
+        {transitionType === 'matrix' && <ParticleEffect />}
+        <motion.div
+          key={currentSlideIndex}
+          custom={slideDirection}
+          variants={currentTransition}
+          initial="initial"
+          animate="animate"
+          exit="exit"
+          transition={currentTransition.transition}
+          className="w-full h-full"
+        >
+          <CurrentSlideComponent />
+        </motion.div>
+      </AnimatePresence>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+      {/* Navigation Controls */}
+      <div className="absolute bottom-8 right-8 flex gap-4">
+        <button
+          onClick={() => navigateToSlide(currentSlideIndex - 1)}
+          disabled={currentSlideIndex === 0}
+          className={`px-4 py-2 rounded border border-[#35F1AB] ${
+            currentSlideIndex === 0 
+              ? 'opacity-50 cursor-not-allowed' 
+              : 'hover:bg-[#35F1AB]/10'
+          }`}
         >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+          Zurück
+        </button>
+        <button
+          onClick={() => navigateToSlide(currentSlideIndex + 1)}
+          disabled={currentSlideIndex === SLIDES.length - 1}
+          className={`px-4 py-2 rounded border border-[#35F1AB] ${
+            currentSlideIndex === SLIDES.length - 1 
+              ? 'opacity-50 cursor-not-allowed' 
+              : 'hover:bg-[#35F1AB]/10'
+          }`}
         >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+          Weiter
+        </button>
+      </div>
+
+      {/* Slide Counter */}
+      <div className="absolute bottom-8 left-8 text-white">
+        {currentSlideIndex + 1} / {SLIDES.length}
+      </div>
     </div>
   );
 }

@@ -1,36 +1,54 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blockchain & Kryptographie Präsentation
 
-## Getting Started
+Eine interaktive Präsentation über Blockchain und Kryptographie Grundlagen, entwickelt mit Next.js und Framer Motion.
 
-First, run the development server:
+## Features
+
+- Moderne, responsive Benutzeroberfläche
+- Animierte Slide-Übergänge
+- Interaktive Elemente
+- Keyboard Navigation
+- Optimiert für Performance
+
+## Tech Stack
+
+- Next.js 14
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- Lucide Icons
+- Vercel Analytics
+
+## Installation
 
 ```bash
+# Repository klonen
+git clone <your-repo-url>
+
+# In Projektverzeichnis wechseln
+cd blockchain-presentation
+
+# Dependencies installieren
+npm install
+
+# Development Server starten
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Die App ist optimiert für Deployment auf Vercel:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Push zu GitHub
+2. Vercel-Account mit GitHub verbinden
+3. "New Project" auf Vercel
+4. Repository auswählen
+5. Deploy
 
-## Learn More
+## Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Keine erforderlich für Basis-Setup.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Lizenz
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+MIT
