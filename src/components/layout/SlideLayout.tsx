@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 // Remove unused import
 // import { ChevronLeft, ChevronRight, Menu } from 'lucide-react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import Button from '../../components/ui/button'; // Updated import path
-import Card from '@/components/ui/card'; // Import Card component
+import Button from '../../components/ui/button';
+import Card from '@/components/ui/card';
 
 interface SlideLayoutProps {
   children: React.ReactNode;

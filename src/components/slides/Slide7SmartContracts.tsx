@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { FileText, Zap, ShieldCheck, ArrowRight, Code, Clock, Check } from 'lucide-react';
+import { Zap, ShieldCheck, ArrowRight, Code, Clock, Check } from 'lucide-react';
 
 const SmartContractsSlide = () => {
   const containerVariants = {

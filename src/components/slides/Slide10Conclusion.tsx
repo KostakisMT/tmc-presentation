@@ -1,6 +1,6 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ArrowRight, Lightbulb, Radar, Rocket, Target, Shield } from 'lucide-react';
+import { ArrowRight, Lightbulb, Radar, Rocket, Target, Shield, Zap } from 'lucide-react';
 
 const ConclusionSlide = () => {
   const containerVariants = {
