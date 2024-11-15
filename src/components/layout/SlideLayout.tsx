@@ -59,7 +59,7 @@ const SlideLayout: React.FC<SlideLayoutProps> = ({
       <div className="absolute top-8 right-8 flex gap-4">
         <Button
           variant="outline"
-          size="icon"
+          size="medium"
           onClick={onPrevious}
           disabled={!canGoPrevious}
           className="transition-all"
@@ -68,7 +68,7 @@ const SlideLayout: React.FC<SlideLayoutProps> = ({
         </Button>
         <Button
           variant="outline"
-          size="icon"
+          size="medium"
           onClick={onNext}
           disabled={!canGoNext}
           className="transition-all"
