@@ -101,7 +101,7 @@ const TRANSITIONS: Record<TransitionType, Variants> = {
     animate: {
       rotateY: 0,
       opacity: 1
-    }),
+    },
     exit: (direction: number) => ({
       rotateY: direction < 0 ? 90 : -90,
       opacity: 0
@@ -164,7 +164,7 @@ const TRANSITIONS: Record<TransitionType, Variants> = {
       y: 0,
       scale: 1,
       opacity: 1
-    }),
+    },
     exit: (direction: number) => ({
       y: direction < 0 ? 1000 : -1000,
       scale: 0.5,
