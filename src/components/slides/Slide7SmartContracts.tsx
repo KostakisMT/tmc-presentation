@@ -153,7 +153,6 @@ const SmartContractsSlide = () => {
 export default SmartContractsSlide;
 
 import React from 'react';
-import { motion } from 'framer-motion';
 import { ArrowRight, Lightbulb, Radar, Rocket, Target, Shield, Zap } from 'lucide-react'; // Add Zap here
 
 const ConclusionSlide = () => {
