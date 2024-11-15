@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Menu } from 'lucide-react';
-import { Button } from '@/components/ui/button'; // Ensure this path is correct
+import Button from '@/components/ui/button'; // Updated import path
+import Card from '@/components/ui/card'; // Import Card component
 
 interface SlideLayoutProps {
   children: React.ReactNode;
@@ -83,7 +84,7 @@ const SlideLayout: React.FC<SlideLayoutProps> = ({
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          {children}
+          <Card>{children}</Card> {/* Wrap children with Card component */}
         </motion.div>
       </main>
 

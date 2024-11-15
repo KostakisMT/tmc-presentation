@@ -43,9 +43,7 @@ const TRANSITIONS: Record<TransitionType, Variants> = {
       opacity: 0
     }),
     transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 30
+      type: "tween",
     }
   },
   portal: {
@@ -65,9 +63,7 @@ const TRANSITIONS: Record<TransitionType, Variants> = {
       opacity: 0
     }),
     transition: {
-      type: "spring",
-      stiffness: 100,
-      damping: 15
+      type: "tween",
     }
   },
   matrix: {
@@ -84,9 +80,7 @@ const TRANSITIONS: Record<TransitionType, Variants> = {
       opacity: 0
     },
     transition: {
-      type: "spring",
-      stiffness: 200,
-      damping: 20
+      type: "tween",
     }
   },
   bounce: {
@@ -106,9 +100,7 @@ const TRANSITIONS: Record<TransitionType, Variants> = {
       opacity: 0
     }),
     transition: {
-      type: "spring",
-      stiffness: 300,
-      damping: 30
+      type: "tween",
     }
   },
   flip: {
@@ -129,8 +121,6 @@ const TRANSITIONS: Record<TransitionType, Variants> = {
     },
     transition: {
       type: "tween",
-      ease: "anticipate",
-      duration: 0.5
     }
   }
 };
@@ -161,6 +151,8 @@ function App() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState(0);
   const [transitionType, setTransitionType] = useState<TransitionType>('slide');
+
+  const CurrentSlideComponent = SLIDES[currentSlideIndex].component;
 
   const navigateToSlide = useCallback((index: number) => {
     if (index >= 0 && index < SLIDES.length) {
