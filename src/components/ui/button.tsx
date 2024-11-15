@@ -1,35 +1,32 @@
-
 import React from 'react';
-import { cn } from '@/lib/utils';
+import clsx from 'clsx';
 
-interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'outline';
+interface ButtonProps {
+  variant?: 'outline' | 'solid';
   size?: 'small' | 'medium' | 'large';
+  onClick?: () => void;
+  disabled?: boolean;
+  className?: string;
+  children: React.ReactNode;
 }
 
 const Button: React.FC<ButtonProps> = ({
-  variant = 'primary',
+  variant = 'solid',
   size = 'medium',
+  onClick,
+  disabled,
   className,
   children,
-  ...props
 }) => {
   const baseStyles = 'px-4 py-2 rounded transition-all';
-  const variantStyles = {
-    primary: 'bg-[#35F1AB] text-white hover:bg-[#2ad391]',
-    secondary: 'bg-gray-700 text-white hover:bg-gray-600',
-    outline: 'border border-[#35F1AB] text-[#35F1AB] hover:bg-[#35F1AB]/10',
-  };
-  const sizeStyles = {
-    small: 'text-sm',
-    medium: 'text-base',
-    large: 'text-lg',
-  };
+  const variantStyles = variant === 'outline' ? 'border border-gray-300' : 'bg-blue-500 text-white';
+  const sizeStyles = size === 'small' ? 'text-sm' : size === 'large' ? 'text-lg' : 'text-md';
 
   return (
     <button
-      className={cn(baseStyles, variantStyles[variant], sizeStyles[size], className)}
-      {...props}
+      onClick={onClick}
+      disabled={disabled}
+      className={clsx(baseStyles, variantStyles, sizeStyles, className)}
     >
       {children}
     </button>
