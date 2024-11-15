@@ -2,19 +2,22 @@
 
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { Sparkles, Zap } from 'lucide-react';
+import { Sparkles, Zap, ChevronLeft, ChevronRight, ShieldCheck, ArrowRight, Code, Clock, Check } from 'lucide-react';
+import Button from '../../components/ui/button';
+import Card from '@/components/ui/card';
 
 // Import all slides
 import CoverSlide from '@/components/slides/Slide1Cover';
-import WhatIsBlockchainSlide from '@/components/slides/Slide2WhatIs';
-import HowWorksSlide from '@/components/slides/Slide3HowWorks';
-import ApplicationsSlide from '@/components/slides/Slide4Applications';
-import FutureSlide from '@/components/slides/Slide5Future';
-import TechnicalBasicsSlide from '@/components/slides/Slide6Technical';
-import SmartContractsSlide from '@/components/slides/Slide7SmartContracts';
-import SecuritySlide from '@/components/slides/Slide8Security';
-import PracticalExamplesSlide from '@/components/slides/Slide9Examples';
-import ConclusionSlide from '@/components/slides/Slide10Conclusion';
+// Remove unused imports
+// import WhatIsBlockchainSlide from '@/components/slides/Slide2WhatIs';
+// import HowWorksSlide from '@/components/slides/Slide3HowWorks';
+// import ApplicationsSlide from '@/components/slides/Slide4Applications';
+// import FutureSlide from '@/components/slides/Slide5Future';
+// import TechnicalBasicsSlide from '@/components/slides/Slide6Technical';
+// import SmartContractsSlide from '@/components/slides/Slide7SmartContracts';
+// import SecuritySlide from '@/components/slides/Slide8Security';
+// import PracticalExamplesSlide from '@/components/slides/Slide9Examples';
+// import ConclusionSlide from '@/components/slides/Slide10Conclusion';
 
 // Slide configuration
 const SLIDES = [
