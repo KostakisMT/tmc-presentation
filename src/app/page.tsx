@@ -2,9 +2,8 @@
 
 import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
-import { Sparkles, Zap, ChevronLeft, ChevronRight, ShieldCheck, ArrowRight, Code, Clock, Check } from 'lucide-react';
 // Remove unused imports
-// import Button from '../../components/ui/button';
+// import { Sparkles, Zap, ChevronLeft, ChevronRight, ShieldCheck, ArrowRight, Code, Clock, Check } from 'lucide-react';
 import Card from '@/components/ui/card';
 
 // Import all slides
