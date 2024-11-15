@@ -82,7 +82,7 @@ const TRANSITIONS: Record<TransitionType, Variants> = {
     animate: {
       x: 0,
       opacity: 1
-    }),
+    },
     exit: (direction: number) => ({
       x: direction < 0 ? 1000 : -1000,
       opacity: 0
