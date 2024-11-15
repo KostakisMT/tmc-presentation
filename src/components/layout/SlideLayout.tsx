@@ -1,7 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronLeft, ChevronRight, Menu } from 'lucide-react';
-import Button from '@/components/ui/button'; // Updated import path
+import Button from '../../components/ui/button'; // Updated import path
 import Card from '@/components/ui/card'; // Import Card component
 
 interface SlideLayoutProps {
