@@ -1,7 +1,7 @@
 'use client';
 
-import React, { useState, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import React, { useState, useCallback, useMemo } from 'react';
+import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Sparkles, Zap } from 'lucide-react';
 
 // Import all slides
@@ -71,7 +71,9 @@ const SLIDES = [
 ] as const;
 
 // Define transition types and their configurations
-const transitions = {
+type TransitionType = 'slide' | 'flip' | 'matrix' | 'portal' | 'bounce';
+
+const TRANSITIONS: Record<TransitionType, Variants> = {
   slide: {
     initial: (direction: number) => ({
       x: direction > 0 ? 1000 : -1000,
@@ -80,7 +82,7 @@ const transitions = {
     animate: {
       x: 0,
       opacity: 1
-    },
+    }),
     exit: (direction: number) => ({
       x: direction < 0 ? 1000 : -1000,
       opacity: 0
@@ -99,7 +101,7 @@ const transitions = {
     animate: {
       rotateY: 0,
       opacity: 1
-    },
+    }),
     exit: (direction: number) => ({
       rotateY: direction < 0 ? 90 : -90,
       opacity: 0
@@ -162,7 +164,7 @@ const transitions = {
       y: 0,
       scale: 1,
       opacity: 1
-    },
+    }),
     exit: (direction: number) => ({
       y: direction < 0 ? 1000 : -1000,
       scale: 0.5,
@@ -174,7 +176,7 @@ const transitions = {
       damping: 15
     }
   }
-} as const;
+};
 
 // Define the particle effect component
 const ParticleEffect = () => (
@@ -214,17 +216,13 @@ const ParticleEffect = () => (
   </motion.div>
 );
 
-// Type for transition names
-type TransitionType = keyof typeof transitions;
-
 // Main App Component
 export default function App() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState(0);
   const [transitionType, setTransitionType] = useState<TransitionType>('slide');
 
-  // Function to determine transition type based on slide index
-  const getTransitionType = (slideIndex: number): TransitionType => {
+  const getTransitionType = useCallback((slideIndex: number): TransitionType => {
     switch (slideIndex) {
       case 0:
         return 'portal';
@@ -237,16 +235,15 @@ export default function App() {
       default:
         return 'slide';
     }
-  };
+  }, []);
 
-  // Navigation function
   const navigateToSlide = useCallback((index: number) => {
     if (index >= 0 && index < SLIDES.length) {
       setSlideDirection(index > currentSlideIndex ? 1 : -1);
       setTransitionType(getTransitionType(index));
       setCurrentSlideIndex(index);
     }
-  }, [currentSlideIndex]);
+  }, [currentSlideIndex, getTransitionType]);
 
   // Keyboard navigation
   React.useEffect(() => {
@@ -263,7 +260,7 @@ export default function App() {
   }, [currentSlideIndex, navigateToSlide]);
 
   const CurrentSlideComponent = SLIDES[currentSlideIndex].component;
-  const currentTransition = transitions[transitionType];
+  const currentTransition = TRANSITIONS[transitionType];
 
   return (
     <div className="relative w-screen h-screen overflow-hidden bg-[#13103F]">
