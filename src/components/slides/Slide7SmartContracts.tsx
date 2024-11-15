@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion';
-import { Zap, ShieldCheck, ArrowRight, Code, Clock, Check } from 'lucide-react';
+import { ShieldCheck, ArrowRight, Code, Clock, Check } from 'lucide-react';
+import { Shield, Building, Box } from 'lucide-react';
 
 const SmartContractsSlide = () => {
   const containerVariants = {
