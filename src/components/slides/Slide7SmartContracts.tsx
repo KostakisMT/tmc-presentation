@@ -153,7 +153,7 @@ const SmartContractsSlide = () => {
 export default SmartContractsSlide;
 
 import React from 'react';
-import { ArrowRight, Lightbulb, Radar, Rocket, Target, Shield, Zap } from 'lucide-react'; // Add Zap here
+import { ArrowRight, Lightbulb, Radar, Rocket, Target, Shield } from 'lucide-react';
 
 const ConclusionSlide = () => {
   const containerVariants = {
@@ -192,7 +192,7 @@ const ConclusionSlide = () => {
       animation: { rotate: [0, 5, -5, 0] }
     },
     {
-      icon: Zap, // Ensure Zap is imported
+      icon: Zap,
       text: "Automatisierung steigert Effizienz",
       animation: { y: [0, -5, 0] }
     },
