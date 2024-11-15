@@ -1,6 +1,13 @@
 import { motion } from 'framer-motion';
-import { ShieldCheck, ArrowRight, Code, Clock, Check } from 'lucide-react';
-import { Shield, Building, Box } from 'lucide-react';
+import { 
+  ShieldCheck, 
+  Code, 
+  Clock, 
+  Check, 
+  Building, 
+  Box, 
+  Zap 
+} from 'lucide-react';
 
 const SmartContractsSlide = () => {
   const containerVariants = {
@@ -77,7 +84,6 @@ const SmartContractsSlide = () => {
             <div className="space-y-4">
               {[
                 { icon: Zap, text: "Automatische Ausführung" },
-                { icon: ShieldCheck, text: "Manipulationssicher" },
                 { icon: Clock, text: "Zeitersparnis" },
                 { icon: Check, text: "Keine Intermediäre" }
               ].map((benefit, index) => (
@@ -86,7 +92,7 @@ const SmartContractsSlide = () => {
                   className="flex items-center gap-4 text-white"
                   whileHover={{ x: 10 }}
                 >
-                  <benefit.icon className="w-5 h-5 text-[#35F1AB]" />
+                  {React.createElement(benefit.icon, { className: "w-5 h-5 text-[#35F1AB]" })}
                   <span>{benefit.text}</span>
                 </motion.div>
               ))}
@@ -128,7 +134,7 @@ const SmartContractsSlide = () => {
               >
                 <div className="flex items-start gap-4">
                   <div className="p-2 border border-[#35F1AB] rounded">
-                    <example.icon className="w-6 h-6 text-[#35F1AB]" />
+                    {example.icon && <example.icon className="w-6 h-6 text-[#35F1AB]" />}
                   </div>
                   <div>
                     <h4 className="text-[#35F1AB] text-xl font-bold mb-2">{example.title}</h4>
@@ -151,11 +157,17 @@ const SmartContractsSlide = () => {
   );
 };
 
-export default SmartContractsSlide;
+export { SmartContractsSlide };
 
 import React from 'react';
-import { ArrowRight, Lightbulb, Radar, Rocket, Target, Shield } from 'lucide-react';
-
+import { 
+  ArrowRight, 
+  Lightbulb, 
+  Radar, 
+  Rocket, 
+  Target, 
+  Shield 
+} from 'lucide-react';
 const ConclusionSlide = () => {
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -249,7 +261,7 @@ const ConclusionSlide = () => {
                 className="p-3 border border-[#35F1AB] rounded-lg bg-[#35F1AB]/5"
                 whileHover={point.animation}
               >
-                <point.icon className="w-6 h-6 text-[#35F1AB]" />
+                {point.icon && <point.icon className="w-6 h-6 text-[#35F1AB]" />}
               </motion.div>
               <span className="text-white text-lg">{point.text}</span>
               <motion.div
@@ -277,7 +289,7 @@ const ConclusionSlide = () => {
                 whileHover={{ x: 10 }}
               >
                 <div className="flex items-center gap-3 text-[#35F1AB]">
-                  <point.icon className="w-5 h-5" />
+                  {point.icon && <point.icon className="w-5 h-5" />}
                   <span className="font-bold">{point.title}</span>
                 </div>
                 <p className="text-white text-lg pl-8">
@@ -292,4 +304,4 @@ const ConclusionSlide = () => {
   );
 };
 
-export default ConclusionSlide;
+export { ConclusionSlide };
