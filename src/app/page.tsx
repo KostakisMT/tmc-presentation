@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Sparkles, Zap } from 'lucide-react';
 
@@ -23,55 +23,10 @@ const SLIDES = [
     component: CoverSlide,
     title: 'Cover'
   },
-  {
-    id: 2,
-    component: WhatIsBlockchainSlide,
-    title: 'Was ist Blockchain'
-  },
-  {
-    id: 3,
-    component: HowWorksSlide,
-    title: 'Funktionsweise'
-  },
-  {
-    id: 4,
-    component: ApplicationsSlide,
-    title: 'Anwendungen'
-  },
-  {
-    id: 5,
-    component: FutureSlide,
-    title: 'Zukunft'
-  },
-  {
-    id: 6,
-    component: TechnicalBasicsSlide,
-    title: 'Technische Grundlagen'
-  },
-  {
-    id: 7,
-    component: SmartContractsSlide,
-    title: 'Smart Contracts'
-  },
-  {
-    id: 8,
-    component: SecuritySlide,
-    title: 'Sicherheit'
-  },
-  {
-    id: 9,
-    component: PracticalExamplesSlide,
-    title: 'Praktische Beispiele'
-  },
-  {
-    id: 10,
-    component: ConclusionSlide,
-    title: 'Fazit'
-  }
-] as const;
+  // Add other slides here...
+];
 
-// Define transition types and their configurations
-type TransitionType = 'slide' | 'flip' | 'matrix' | 'portal' | 'bounce';
+type TransitionType = 'slide' | 'portal' | 'matrix' | 'bounce' | 'flip';
 
 const TRANSITIONS: Record<TransitionType, Variants> = {
   slide: {
@@ -93,60 +48,40 @@ const TRANSITIONS: Record<TransitionType, Variants> = {
       damping: 30
     }
   },
-  flip: {
+  portal: {
     initial: (direction: number) => ({
-      rotateY: direction > 0 ? 90 : -90,
+      y: direction > 0 ? 1000 : -1000,
+      scale: 0.5,
       opacity: 0
     }),
     animate: {
-      rotateY: 0,
+      y: 0,
+      scale: 1,
       opacity: 1
     },
     exit: (direction: number) => ({
-      rotateY: direction < 0 ? 90 : -90,
+      y: direction < 0 ? 1000 : -1000,
+      scale: 0.5,
       opacity: 0
     }),
     transition: {
       type: "spring",
-      stiffness: 200,
-      damping: 25
+      stiffness: 100,
+      damping: 15
     }
   },
   matrix: {
     initial: {
-      opacity: 0,
-      scale: 0,
-      rotate: 360
-    },
-    animate: {
-      opacity: 1,
-      scale: 1,
-      rotate: 0
-    },
-    exit: {
-      opacity: 0,
-      scale: 0,
-      rotate: -360
-    },
-    transition: {
-      duration: 0.5
-    }
-  },
-  portal: {
-    initial: {
-      scale: 0,
-      opacity: 0,
-      rotate: 180
+      scale: 0.5,
+      opacity: 0
     },
     animate: {
       scale: 1,
-      opacity: 1,
-      rotate: 0
+      opacity: 1
     },
     exit: {
-      scale: 0,
-      opacity: 0,
-      rotate: -180
+      scale: 0.5,
+      opacity: 0
     },
     transition: {
       type: "spring",
@@ -172,70 +107,60 @@ const TRANSITIONS: Record<TransitionType, Variants> = {
     }),
     transition: {
       type: "spring",
-      stiffness: 100,
-      damping: 15
+      stiffness: 300,
+      damping: 30
     }
+  },
+  flip: {
+    initial: {
+      scale: 0,
+      opacity: 0,
+      rotate: -180
+    },
+    animate: {
+      scale: 1,
+      opacity: 1,
+      rotate: 0
+    },
+    exit: {
+      scale: 0,
+      opacity: 0,
+      rotate: -180
+    },
+    transition: {
+      type: "tween",
+      ease: "anticipate",
+      duration: 0.5
+    }
+  }
+};
+
+const getTransitionType = (slideIndex: number): TransitionType => {
+  switch (slideIndex) {
+    case 0:
+      return 'portal';
+    case 1:
+      return 'matrix';
+    case 2:
+      return 'bounce';
+    case 3:
+      return 'flip';
+    default:
+      return 'slide';
   }
 };
 
 // Define the particle effect component
 const ParticleEffect = () => (
-  <motion.div
-    className="fixed inset-0 pointer-events-none"
-    initial={{ opacity: 0 }}
-    animate={{ opacity: 1 }}
-    exit={{ opacity: 0 }}
-  >
-    {Array.from({ length: 20 }).map((_, i) => (
-      <motion.div
-        key={i}
-        className="absolute"
-        initial={{
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
-          scale: 0
-        }}
-        animate={{
-          x: Math.random() * window.innerWidth,
-          y: Math.random() * window.innerHeight,
-          scale: [0, 1, 0],
-          transition: {
-            duration: 1,
-            repeat: Infinity,
-            repeatType: "reverse"
-          }
-        }}
-      >
-        {i % 2 === 0 ? (
-          <Sparkles className="text-[#35F1AB] w-4 h-4" />
-        ) : (
-          <Zap className="text-[#35F1AB] w-4 h-4" />
-        )}
-      </motion.div>
-    ))}
+  <motion.div className="fixed inset-0">
+    {/* Particle effect content */}
   </motion.div>
 );
 
-// Main App Component
-export default function App() {
+function App() {
   const [currentSlideIndex, setCurrentSlideIndex] = useState(0);
   const [slideDirection, setSlideDirection] = useState(0);
   const [transitionType, setTransitionType] = useState<TransitionType>('slide');
-
-  const getTransitionType = useCallback((slideIndex: number): TransitionType => {
-    switch (slideIndex) {
-      case 0:
-        return 'portal';
-      case 1:
-        return 'matrix';
-      case 2:
-        return 'bounce';
-      case 3:
-        return 'flip';
-      default:
-        return 'slide';
-    }
-  }, []);
 
   const navigateToSlide = useCallback((index: number) => {
     if (index >= 0 && index < SLIDES.length) {
@@ -243,23 +168,8 @@ export default function App() {
       setTransitionType(getTransitionType(index));
       setCurrentSlideIndex(index);
     }
-  }, [currentSlideIndex, getTransitionType]);
+  }, [currentSlideIndex]);
 
-  // Keyboard navigation
-  React.useEffect(() => {
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'ArrowRight' && currentSlideIndex < SLIDES.length - 1) {
-        navigateToSlide(currentSlideIndex + 1);
-      } else if (event.key === 'ArrowLeft' && currentSlideIndex > 0) {
-        navigateToSlide(currentSlideIndex - 1);
-      }
-    };
-
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [currentSlideIndex, navigateToSlide]);
-
-  const CurrentSlideComponent = SLIDES[currentSlideIndex].component;
   const currentTransition = TRANSITIONS[transitionType];
 
   return (
@@ -279,7 +189,6 @@ export default function App() {
           <CurrentSlideComponent />
         </motion.div>
       </AnimatePresence>
-
       {/* Navigation Controls */}
       <div className="absolute bottom-8 right-8 flex gap-4">
         <button
@@ -305,11 +214,9 @@ export default function App() {
           Weiter
         </button>
       </div>
-
       {/* Slide Counter */}
-      <div className="absolute bottom-8 left-8 text-white">
-        {currentSlideIndex + 1} / {SLIDES.length}
-      </div>
     </div>
   );
 }
+
+export default App;
