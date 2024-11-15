@@ -4,7 +4,7 @@ import React, { useState, useCallback, useMemo } from 'react';
 import { motion, AnimatePresence, Variants } from 'framer-motion';
 import { Sparkles, Zap } from 'lucide-react';
 
-// Import all slides
+// Import all slide
 import CoverSlide from '@/components/slides/Slide1Cover';
 import WhatIsBlockchainSlide from '@/components/slides/Slide2WhatIs';
 import HowWorksSlide from '@/components/slides/Slide3HowWorks';
